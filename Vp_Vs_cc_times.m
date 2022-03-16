@@ -7,17 +7,26 @@
 %Output: Plots for each Cluster
 %--------------------------------------------------> M. Mesimeri 06-07/2020 
 %-Revised 03/2021
+%-Upated Documentation: 03/2022 maria.mesimeri@sed.ethz.ch
 %--------------------------------------------------------------------------
 clear;clc;close all
 mydir=pwd; pdir=sprintf('%s/src/',pwd); % get working directory path
 addpath(genpath(pdir));  %add src to path 
-%% load input arrays and cells
-%differential times - 
-load results_xcorr.mat cc
-%clusters
-a=load('test.txt');
+%% Initialize
+%differential times
+%EVENT ID | EVENT ID | CC (correlation coefficient) | DT (delay time) |
+%STATION NUMBER (instead of using characters) | Phase ID [1: P, 2: S]
+load results_xcorr.mat
+% Catalog with clusters
+% The example contains one cluster
+% YEAR ORIGINTIME | LATITUDE | LONGITUDE| DEPTH | MAGNITUDE| DECIMAL YEAR |
+% TIME RALTIVE TO THE FIRST EVENT IN THE CATALOG| EVENT ID| CLUSTER ID
+a=load('mycluster.txt');
 %Set number of bootstraps
-Nboot=500;Nclust=1;
+Nboot=500;
+%Give total number of clusters
+Nclust=1;
+%Pre allocate memory
 mVpVs=NaN*ones(max(a(:,10)),1);sVpVs=NaN*ones(Nclust,1);VpVs=NaN*ones(Nclust,1);
 %% start doing Vp - Vs for each cluster in a loop
 for i=1:Nclust
